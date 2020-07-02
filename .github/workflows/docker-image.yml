@@ -18,6 +18,6 @@ jobs:
       uses: docker/build-push-action@v1.1.0
       with:
         username: johanngoltz
-        password: f993535a-df36-4cbc-b9b3-10c16cae64c1
+        password: ${{ secrets.docker_hub_token }}
         repository: tubpeng/kafka-data-minimization-spi
         tag_with_ref: True
