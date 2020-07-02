@@ -1,14 +1,15 @@
 import cuid
 import datetime
-from storage import Storage
+from utils.storage import Storage
 from collections import Iterable
 from utils import get_logger
+from enum import Enum
 
 logger = get_logger()
 
 
 class Window:
-    class StopCrits:
+    class StopCrits(Enum):
         INGESTION_TIME = 0
         LENGTH = 1
         SINGLE_RECORD = 2
