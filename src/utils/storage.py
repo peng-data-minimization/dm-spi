@@ -1,7 +1,8 @@
 from sqlitedict import SqliteDict
+from enum import Enum
 
 
-class StorageModes:
+class StorageModes(Enum):
     MEMORY = 1
     PERSISTENT = 2
 
@@ -11,7 +12,7 @@ class Storage:
     def __init__(self, mode=StorageModes.MEMORY):
         self.mode = mode
         if self.mode == StorageModes.PERSISTENT:
-            self.cache = SqliteDict('./my_db.sqlite', autocommit=True)
+            self.cache = SqliteDict('../my_db.sqlite', autocommit=True)
         elif self.mode == StorageModes.MEMORY:
             self.cache = dict()
 

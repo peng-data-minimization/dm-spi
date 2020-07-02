@@ -1,5 +1,5 @@
 pyYAML
 kafka-python
-# git+ssh://git@github.com/peng-data-minimization/minimizer.git
+git+https://github.com/peng-data-minimization/minimizer.git
 sqlitedict
 cuid
