@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build & push the Docker image
+      uses: docker/build-push-action@v1.1.0
+      with:
+        username: johanngoltz
+        password: f993535a-df36-4cbc-b9b3-10c16cae64c1
+        repository: tubpeng/kafka-data-minimization-spi
+        tag_with_ref: True
