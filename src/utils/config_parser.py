@@ -12,13 +12,21 @@ def parse_config(config_path):
 
     validate_config(data)
 
-    tasks_keys = set().union(*(d.keys() for d in data['tasks']))
+    tasks_keys = set().union(*(d.keys() for d in data['tasks'])).union(data['task_defaults'].keys())
+
     Tasks = namedtuple('ConfigTasks', tasks_keys)
     Platform = namedtuple('ConfigPlatform', data['streaming_platform'].keys())
 
     platform_config = Platform(**data['streaming_platform'])
     tasks = []
     for task in data['tasks']:
+        for key in tasks_keys:
+            if key not in task:
+                if key in data['task_defaults']:
+                    task[key] = data['task_defaults'][key]
+                else:
+                    task[key] = None
+
         tasks.append(Tasks(**task))
 
     return platform_config, tasks
@@ -31,6 +39,7 @@ def validate_config(config_data):
     _check_in_obj('tasks', config_data)
     _check_key_in_all_obj('name', config_data['tasks'])
     _check_value_uniqueness('name', config_data['tasks'])
+
 
 def _check_value_uniqueness(key, list_of_obj):
     data = []
