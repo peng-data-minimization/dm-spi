@@ -35,7 +35,7 @@ class Storage:
     def append(self, k, v):
         current_data = self.cache.get(k)
         if not current_data:
-            self.set(k, v)
+            self.set(k, [v])
         else:
             if not isinstance(current_data, list):
                 current_data = [current_data]
