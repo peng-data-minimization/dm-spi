@@ -1,4 +1,4 @@
-# Kafka Streaming Provider Interface ![](https://github.com/peng-data-minimization/kafka-spi/workflows/Docker%20Image%20CI/badge.svg)
+# Data Minimization Streaming Provider Interface ![](https://github.com/peng-data-minimization/kafka-spi/workflows/Docker%20Image%20CI/badge.svg)
 
 Configurable Interface to apply data minimization tools on Streaming pipelines. Currently supporting implementations for 
 * Apache Kafka
