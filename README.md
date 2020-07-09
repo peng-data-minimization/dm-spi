@@ -1,6 +1,7 @@
 # Kafka Streaming Provider Interface ![](https://github.com/peng-data-minimization/kafka-spi/workflows/Docker%20Image%20CI/badge.svg)
 
-Configurable Interface to apply data minimization tools on Apache Kafka topics.
+Configurable Interface to apply data minimization tools on Streaming pipelines. Currently supporting implementations for 
+* Apache Kafka
 
 ## Deployment
 You can use the [docker hub image](https://hub.docker.com/repository/docker/tubpeng/kafka-data-minimization-spi) to deploy the data minimization streaming provider interface. 
