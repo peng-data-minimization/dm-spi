@@ -1,0 +1,20 @@
+streaming_platform:
+  type: kafka-testing
+  broker_url: "kafka:9092"
+  example_message_file: /etc/config/example-activity.json
+
+task_defaults:
+  input_offset_reset: earliest
+  topic_encoding: "utf8"
+  storage_mode: "memory"
+  input_data_type: "json"
+
+
+tasks:
+- name: simple
+  input_topic: "foo"
+  output_topic: "baa"
+  function:
+    name: "drop_keys"
+    args:
+      keys: ['calories', 'athlete.id', 'laps[].calories', 'splits_metric[].average_heartrate']
