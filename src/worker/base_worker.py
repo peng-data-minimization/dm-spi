@@ -30,7 +30,9 @@ class BaseWorker(ABC):
         pass
 
     def process_consumer(self, consumer, task, window):
+        self.logger.info(f'Start consuming and processing kafka messages...')
         for msg in self.consume_iter(consumer):
+            self.logger.debug(f'Consuming message {msg}')
             try:
                 encoded_msg = msg.value.decode(task.topic_encoding)
             except UnicodeDecodeError:
@@ -43,7 +45,7 @@ class BaseWorker(ABC):
                 self.logger.warning(f"could not deserialize message {encoded_msg}. "
                                     f"Provided input data type: {task.input_data_type}. Skipping.")
                 continue
-            self.logger.debug(f"recieved message: {encoded_msg}")
+            self.logger.debug(f"received message: {encoded_msg}")
             window.add_to_window(deserialized_obj.copy())
             self.logger.debug("added message to window")
 

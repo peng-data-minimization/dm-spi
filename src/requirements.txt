@@ -1,5 +1,7 @@
 pyYAML
 kafka-python
+confluent_kafka
 git+https://github.com/peng-data-minimization/minimizer.git
 sqlitedict
 cuid
+numpy

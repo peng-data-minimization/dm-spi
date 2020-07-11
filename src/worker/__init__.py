@@ -1,4 +1,5 @@
 from worker.kafka_worker import KafkaWorker
+from worker.test_worker import TestKafkaWorker
 from utils.config_parser import parse_config
 from utils import get_logger
 
@@ -13,9 +14,11 @@ def get_worker(config_path, designated_task = None):
     if designated_task:
         tasks = [task for task in tasks if task.name == designated_task]
         logger.debug(f"Chose designated task {tasks}")
-    
+
     worker_type = plattform_config.type
 
     #this can certainly be done in a nicer way...
     if worker_type == 'kafka':
         return KafkaWorker(plattform_config, tasks)
+    elif worker_type == 'kafka-testing':
+        return TestKafkaWorker(plattform_config, tasks)
