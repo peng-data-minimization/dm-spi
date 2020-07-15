@@ -2,6 +2,7 @@ streaming_platform:
   type: kafka-testing
   broker_url: "kafka:9092"
   example_message_file: /etc/config/example-activity.json
+  test_iterations: 10
 
 task_defaults:
   input_offset_reset: earliest
