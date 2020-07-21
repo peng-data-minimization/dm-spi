@@ -1,23 +1,23 @@
 streaming_platform:
   type: kafka
-  broker_url: "fitness-data-pipeline-cp-kafka-headless:9092"
+  broker_url: "kafka:9092"
   auth:
   - user: null
   - pw: null
 
 task_defaults:
   input_offset_reset: earliest
-  topic_encoding: "utf8"
-  storage_mode: "memory"
-  input_data_type: "json"
+  topic_encoding: utf8
+  storage_mode: memory
+  input_data_type: json
 
 
 tasks:
 - name: first
-  input_topic: "foo"
-  output_topic: "bar"
+  input_topic: foo
+  output_topic: bar
   function:
-    name: "reduce_to_mean"
+    name: reduce_to_mean
     args:
       keys: ['a']
     window:
@@ -26,10 +26,10 @@ tasks:
       grouping_keys: ['b']
 
 - name: second
-  input_topic: "bar"
+  input_topic: bar
   input_offset_reset: latest
-  output_topic: "bla"
+  output_topic: bla
   function:
-    name: "drop_keys"
+    name: drop_keys
     args:
       keys: ['c']

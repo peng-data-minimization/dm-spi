@@ -2,12 +2,17 @@ version: '3.4'
 
 services:
   spi:
-    image: tubpeng/kafka-data-minimization-spi
-    container_name: spi
-    entrypoint: [ "python", "./run.py", "--config-path", "/etc/config/worker_config.yaml"]
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: spi-testing
+    entrypoint: [ "python", "./run.py", "--config-path", "/etc/config/worker_config.yaml", "--designated-task", "$DESIGNATED_TASK" ]
+    environment:
+      DESIGNATED_TASK: ''
     restart: unless-stopped
     volumes:
-      - ${PWD}/examples/example_config.yml:/etc/config/worker_config.yaml
+      - ${PWD}/../examples/example_testing_config.yml:/etc/config/worker_config.yaml
+      - ${PWD}/../examples/example-activity.json:/etc/config/example-activity.json
     depends_on:
     - zookeeper
     - kafka

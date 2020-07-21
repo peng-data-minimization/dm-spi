@@ -4,23 +4,46 @@ Configurable Interface to apply data minimization tools on Streaming pipelines. 
 * Apache Kafka
 
 ## Deployment
-You can use the [docker hub image](https://hub.docker.com/repository/docker/tubpeng/kafka-data-minimization-spi) to deploy the data minimization streaming provider interface. 
-Copy your configuration to the container and execute `run.py`. 
-```
-FROM tubpeng/kafka-data-minimization-spi
+The data minimization SPI deployment is based on the published [tubpeng/kafka-data-minimization-spi image](https://hub.docker.com/repository/docker/tubpeng/kafka-data-minimization-spi) on docker hub. Three options exist to deploy the image:
 
-COPY examples/example_config /etc/config/worker_config.yml
+1. Build your own docker image
 
-ENTRYPOINT [ "python", "./run.py", "--config-path", "/etc/config/worker_config.yaml"]
+    * Use it as the base image for your use case
+    * Copy the worker configuration file into the container
+    * Start the worker on docker run
 
-```
+    ```
+    FROM tubpeng/kafka-data-minimization-spi
+
+    COPY examples/example_config /etc/config/worker_config.yml
+
+    ENTRYPOINT [ "python", "./run.py", "--config-path", "/etc/config/worker_config.yaml"]
+    ```
+
+2. Use docker compose
+
+    Create a docker-compose.yml based on the following service and run `docker-compose up` to deploy it.
+    ```
+    version: '3.4'
+    services:
+      spi:
+        image: tubpeng/kafka-data-minimization-spi
+        entrypoint: [ "python", "./run.py", "--config-path", "/etc/config/worker_config.yaml"]
+        volumes:
+          - ${PWD}/examples/example_config.yml:/etc/config/worker_config.yaml
+    ```
+    See the [docker-compose.yml](./docker-compose.yml) for the full configuration.
+
+3. Use Helm to deploy it on Kubernetes
+
+    Please refer to the deployment guide in README of [peng-data-minimization/helm-charts](https://github.com/peng-data-minimization/helm-charts).
 
 ## Development
 Images are build and published to docker hub.
 To run outside a docker container run `python run.py --config-path YOUR_CONFIG_PATH`
 
 ## Configuration
-The configuration is devided into three components (yaml keys). The `streaming_platform`, the `task_defaults` and finally the `tasks`. 
+The configuration is devided into three components (yaml keys). The `streaming_platform`, the `task_defaults` and finally the `tasks`.
 A sample file, covering most possible options can be found in the [examples](/examples) folder. For further documentation, see below.
 
 ### streaming_platform
@@ -82,4 +105,4 @@ streaming_platform:
 
 The latency test results are being stored as `latency-summary.log` and a summary with 50, 99 and 99.9 percentiles is being logged to `INFO`.
 
-To run the latency tests locally, just run `docker-compose up` which uses the `example_testing_config.yml`.
+To run the latency tests locally, just run `docker-compose up --build` in the `testing` dir which uses the `example_testing_config.yml`.

@@ -6,16 +6,16 @@ streaming_platform:
 
 task_defaults:
   input_offset_reset: earliest
-  topic_encoding: "utf8"
-  storage_mode: "memory"
-  input_data_type: "json"
+  topic_encoding: utf8
+  storage_mode: memory
+  input_data_type: json
 
 
 tasks:
 - name: simple
-  input_topic: "foo"
-  output_topic: "baa"
+  input_topic: foo
+  output_topic: baa
   function:
-    name: "drop_keys"
+    name: drop_keys
     args:
       keys: ['calories', 'athlete.id', 'laps[].calories', 'splits_metric[].average_heartrate']
