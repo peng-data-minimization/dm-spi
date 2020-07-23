@@ -10,7 +10,7 @@ loggers:
   default_logger: #do not change!
     handlers:
     - console
-    level: DEBUG
+    level: INFO
     propagate: false
 
 version: 1

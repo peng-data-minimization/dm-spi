@@ -19,3 +19,15 @@ tasks:
     name: drop_keys
     args:
       keys: ['calories', 'athlete.id', 'laps[].calories', 'splits_metric[].average_heartrate']
+
+- name: expensive
+  input_topic: zoo
+  output_topic: yaa
+  function:
+    name: reduce_to_mean
+    args:
+      keys: ['calories']
+    window:
+      type: length
+      value: 100
+      grouping_keys: ['id']

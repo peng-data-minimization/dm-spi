@@ -59,16 +59,18 @@ class TestKafkaWorker(KafkaWorker):
 
 
     def _latency_iteration(self, task, msg_send):
+        window_size = self._get_window_size(task)
         try:
-            record_metadata = self.send(self.producer, msg_send, task.input_topic)
+            for _ in range(window_size):
+                record_metadata = self.send(self.producer, msg_send, task.input_topic)
             self.producer.flush(self.send_timeout)
         except KafkaTimeoutError:
             self.logger.warning('Aborting latency test due to timed out sending of records.')
             return
 
         start = time.perf_counter()
-
-        msg_rec = self.consumer.poll(self.poll_timeout)
+        for _ in range(window_size):
+            msg_rec = self.consumer.poll(self.poll_timeout)
         if msg_rec is None:
             raise Exception(f'Consumer timeout reached when polling ({self.poll_timeout}s)')
         if msg_rec.error():
@@ -80,6 +82,11 @@ class TestKafkaWorker(KafkaWorker):
 
         return latency
 
+    def _get_window_size(self, task):
+        window_config = task.function.get('window')
+        if not window_config:
+            return 1
+        return window_config.get('value', 1)
 
     def _persist_test_results(self, latencies, task_name):
         a = np.array(latencies)
